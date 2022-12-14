@@ -12,11 +12,6 @@ const postJson = async function (options) {
   }).then(res => {
     const token = res.json()
     return token;
-  }).then(obj => {
-    if (obj.token) {
-      localStorage.setItem('auth-token', obj.token)
-    }
-    return obj;
   })
 
   return response;

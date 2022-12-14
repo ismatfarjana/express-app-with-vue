@@ -12,7 +12,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul 
           class="navbar-nav ml-auto"
-          v-if="!$store.getters.isAuthenticated"
+          v-if="!$store.getters.token"
         >
           <li class="nav-link">
             <router-link to="/login" class="nav-link">Login</router-link>
