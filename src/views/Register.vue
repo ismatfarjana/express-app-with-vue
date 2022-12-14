@@ -34,7 +34,13 @@ export default {
       store.dispatch('registerUser', {
         email: email.value,
         password: password.value
-      });
+      }).then(res => {
+        if(res.err) {
+          alert(res.err);
+          return;
+        }
+        router.push('/feeds')
+      });;
     }
 
     return {
