@@ -1,4 +1,5 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import { postJson } from '@/utils/http';
 
 export default createStore({
   state: {
@@ -12,6 +13,12 @@ export default createStore({
   mutations: {
   },
   actions: {
+    registerUser(context, data) {
+      return postJson({
+        url: '/register',
+        data
+      })
+    }
   },
   modules: {
   }
