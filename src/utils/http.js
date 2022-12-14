@@ -8,9 +8,10 @@ const postJson = async function (options) {
   const response = await fetch(`${baseURL}${options.url}`, {
     method: 'post',
     headers,
-    body: JSON.stringify(options.data)
+    body: JSON.stringify(options.data),
   }).then(res => {
-    return res.body;
+    const token = res.json()
+    return token;
   }).then(obj => {
     if (obj.token) {
       localStorage.setItem('auth-token', obj.token)

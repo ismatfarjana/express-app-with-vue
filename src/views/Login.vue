@@ -40,11 +40,10 @@ export default {
         email: email.value,
         password: password.value
       }).then(res => {
-        if (res.err) {
+        if(res.err) {
           alert(res.err);
-          return
+          return;
         }
-
         router.push('/feeds')
       });
     }
