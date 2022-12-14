@@ -1,17 +1,24 @@
-const baseURL = 'http://localhost:8081'
+const baseURL = 'http://localhost:4000'
 
-const postJson = function (options) {
+const postJson = async function (options) {
   const headers = new Headers();
 
-  headers.append('Contennt-Type', 'application/json')
+  headers.append('Content-Type', 'application/json')
 
-  return fetch(`${baseURL}${options.url}`, {
+  const response = await fetch(`${baseURL}${options.url}`, {
     method: 'post',
     headers,
     body: JSON.stringify(options.data)
   }).then(res => {
-    res.json()
+    return res.body;
+  }).then(obj => {
+    if (obj.token) {
+      localStorage.setItem('auth-token', obj.token)
+    }
+    return obj;
   })
+
+  return response;
 }
 
 module.exports = {

@@ -18,7 +18,13 @@ export default createStore({
         url: '/register',
         data
       })
-    }
+    },
+    login(context, data) {
+      return postJson({
+        url: '/login',
+        data
+      })
+    },
   },
   modules: {
   }
