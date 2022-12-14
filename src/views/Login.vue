@@ -12,7 +12,7 @@
       <button class="btn btn-primary" @click.prevent="onSubmit">Login</button>
     </div>
     <div class="text-center">
-      Need Account? Register Now
+      Need Account? <router-link to="/register">Register Now</router-link>
     </div>
   </div>
 </template>
