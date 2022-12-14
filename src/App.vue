@@ -26,8 +26,10 @@
     
     
 
-    <div id="page-content-container" class="container">
-      <router-view />
+    <div class="container-fluid overflow-hidden">
+      <div class="row">
+        <router-view />
+      </div>
     </div>
   </div>
   

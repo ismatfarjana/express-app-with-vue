@@ -3,11 +3,22 @@ import { postJson } from '@/utils/http';
 
 export default createStore({
   state: {
-    token: localStorage.getItem('auth-token')
+    token: localStorage.getItem('auth-token'),
+    feeds: [{
+      name: 'First feed',
+      url: ''
+    },
+    {
+      name: 'Second feed',
+      url: ''
+    }]
   },
   getters: {
     token(state) {
       return state.token;
+    },
+    feeds(state) {
+      return state.feeds;
     }
   },
   mutations: {
@@ -38,6 +49,9 @@ export default createStore({
         }
         return obj;
       })
+    },
+    getFeed(context, url) {
+
     },
   },
   modules: {

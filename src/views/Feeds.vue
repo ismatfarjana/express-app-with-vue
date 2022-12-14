@@ -1,5 +1,34 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="col-3">
+    <div class="panel">
+      <h4>Feeds</h4>
+      <div class="list-group">
+        <a 
+        v-for="feed in $store.getters.feeds" 
+        :key="feed"
+        href="#" 
+        class="list-group-item list-group-item-action"
+        >
+          {{feed.name}}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="panel">
+      <h4>Items</h4>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="panel">
+      <h4>Content</h4>
+    </div>
   </div>
 </template>
+
+<style>
+.panel {
+  height: calc(100vh -56px);
+  overflow: auto;
+}
+</style>
