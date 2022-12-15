@@ -11,7 +11,8 @@ export default createStore({
     {
       name: 'Second feed',
       url: ''
-    }]
+    }],
+    articles: []
   },
   getters: {
     token(state) {
@@ -19,12 +20,18 @@ export default createStore({
     },
     feeds(state) {
       return state.feeds;
+    },
+    articles(state) {
+      return state.articles;
     }
   },
   mutations: {
     setToken(state, value) {
       state.token = value;
       localStorage.setItem('auth-token', value);
+    },
+    setArticles(state, value) {
+      state.articles = value
     }
   },
   actions: {
@@ -51,7 +58,19 @@ export default createStore({
       })
     },
     getFeed(context, url) {
-
+      context.commit('setArticles', [{
+        title: 'Article 1',
+        description: 'Content of article 1'
+      },
+      {
+        title: 'Article 2',
+        description: 'Content of article 2'
+      },
+      {
+        title: 'Article 3',
+        description: 'Content of article 3'
+      }
+      ])
     },
   },
   modules: {
