@@ -75,6 +75,8 @@ export default {
     function removeFeed(feed) {
       store.dispatch('removeFeed', feed);
     };
+
+    store.dispatch('getFeeds');
     
     return {
       addFeed,

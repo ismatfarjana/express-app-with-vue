@@ -43,7 +43,19 @@ const getJson = async function (options) {
   return response;
 };
 
+const deleteJson = async function (options) {
+  const headers = getHeaders();
+
+  const response = await fetch(`${baseURL}${options.url}`, {
+    method: 'delete',
+    headers,
+  }).then(checkAuth);
+
+  return response;
+};
+
 export {
   postJson,
-  getJson
+  getJson,
+  deleteJson
 };

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { postJson, getJson } from '@/utils/http';
+import { postJson, getJson, deleteJson } from '@/utils/http';
 
 export default createStore({
   state: {
@@ -28,9 +28,6 @@ export default createStore({
     },
     setFeeds(state, feeds) {
       state.feeds = feeds;
-    },
-    removeFeed(state, feed) {
-      state.feeds.splice(state.feeds.indexOf(feed), 1);
     }
   },
   actions: {
@@ -94,7 +91,14 @@ export default createStore({
 
     },
     removeFeed(context, feed) {
-      context.commit('removeFeed', feed);
+      return deleteJson({
+        url: `/feeds/${feed._id}`
+      }).then(data => {
+        if (data.feeds) {
+          context.commit('setFeeds', data.feeds);
+          return data;
+        }
+      });
     }
   },
   modules: {
