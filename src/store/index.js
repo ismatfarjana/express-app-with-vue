@@ -4,14 +4,7 @@ import { postJson, getJson } from '@/utils/http';
 export default createStore({
   state: {
     token: localStorage.getItem('auth-token'),
-    feeds: [{
-      name: 'First feed',
-      url: ''
-    },
-    {
-      name: 'Second feed',
-      url: ''
-    }],
+    feeds: [],
     articles: []
   },
   getters: {
@@ -35,12 +28,6 @@ export default createStore({
     },
     setFeeds(state, feeds) {
       state.feeds = feeds;
-    },
-    addFeed(state, feedName, feedUrl) {
-      state.feeds.push({
-        name: feedName,
-        url: feedUrl
-      });
     },
     removeFeed(state, feed) {
       state.feeds.splice(state.feeds.indexOf(feed), 1);
@@ -94,8 +81,17 @@ export default createStore({
         return data;
       });
     },
-    addFeed(context, feedName, feedUrl) {
-      context.commit('addFeed', feedName, feedUrl);
+    addFeed(context, data) {
+      return postJson({
+        url: '/feeds',
+        data
+      }).then(data => {
+        if (data.feeds) {
+          context.commit('setFeeds', data.feeds);
+          return data;
+        }
+      });
+
     },
     removeFeed(context, feed) {
       context.commit('removeFeed', feed);
