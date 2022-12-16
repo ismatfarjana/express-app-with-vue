@@ -6,13 +6,13 @@
         <label for="feed-name" class="form-label">
           Feed name
         </label>
-        <input type="text" class="form-control" id="feed-name" v-model="feedName" />
+        <input type="text" class="form-control" id="feed-name" v-model="feedName" required/>
       </div>
       <div class="mb-3">
         <label for="feed-url" class="form-label">
           Feed URL
         </label>
-        <input type="text" class="form-control" id="feed-url" v-model="feedUrl" />
+        <input type="text" class="form-control" id="feed-url" v-model="feedUrl" required/>
       </div>
       <div class="mb-3">
         <button class="btn btn-primary" @click.prevent="addFeed()">Add Feed</button>
@@ -57,17 +57,27 @@ export default {
     let feedUrl = ref('');
 
     function addFeed() {
-      store.dispatch('addFeed', feedName.value, feedUrl.value);
+      store.dispatch('addFeed', {
+        name: feedName.value,
+        url: feedUrl.value
+      }).then(data => {
+        if (data.err) {
+          alert(data.err);
+          return
+        }
+        feedName.value = '';
+        feedUrl.value = '';
+      });
 
-      feedName.value = '';
-      feedUrl = '';
+    
     };
 
     function removeFeed(feed) {
       store.dispatch('removeFeed', feed);
     };
 
-
+    store.dispatch('getFeeds');
+    
     return {
       addFeed,
       removeFeed,

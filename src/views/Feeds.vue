@@ -8,7 +8,7 @@
           :key="feed"
           href="#" 
           class="list-group-item list-group-item-action"
-          @click.prevent="feedOnClick(feed.url)"
+          @click.prevent="feedOnClick(feed)"
         >
           {{feed.name}}
         </a>
@@ -49,14 +49,16 @@ export default {
     let articleTitle = ref('');
     let articleDescription = ref('');
 
-    function feedOnClick(url) {
-      store.dispatch('getFeed', url);
+    function feedOnClick(feed) {
+      store.dispatch('getFeed', feed);
     };
 
     function articleOnClick(article) {
       articleTitle.value = article.title;
-      articleDescription.value = article.description;
+      articleDescription.value = article.content;
     }
+
+    store.dispatch('getFeeds');
 
     return {
       feedOnClick,

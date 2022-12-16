@@ -1,17 +1,10 @@
 import { createStore } from 'vuex';
-import { postJson } from '@/utils/http';
+import { postJson, getJson, deleteJson } from '@/utils/http';
 
 export default createStore({
   state: {
     token: localStorage.getItem('auth-token'),
-    feeds: [{
-      name: 'First feed',
-      url: ''
-    },
-    {
-      name: 'Second feed',
-      url: ''
-    }],
+    feeds: [],
     articles: []
   },
   getters: {
@@ -27,20 +20,20 @@ export default createStore({
   },
   mutations: {
     setToken(state, value) {
-      state.token = value;
-      localStorage.setItem('auth-token', value);
+      if (value) {
+        state.token = value;
+        localStorage.setItem('auth-token', value);
+      } else {
+        state.token = null;
+        localStorage.removeItem('auth-token');
+      }
+
     },
     setArticles(state, value) {
-      state.articles = value
+      state.articles = value;
     },
-    addFeed(state, feedName, feedUrl) {
-      state.feeds.push({
-        name: feedName,
-        url: feedUrl
-      })
-    },
-    removeFeed(state, feed) {
-      state.feeds.splice(state.feeds.indexOf(feed), 1)
+    setFeeds(state, feeds) {
+      state.feeds = feeds;
     }
   },
   actions: {
@@ -53,7 +46,7 @@ export default createStore({
           context.commit('setToken', obj.token);
         }
         return obj;
-      })
+      });
     },
     login(context, data) {
       return postJson({
@@ -64,30 +57,52 @@ export default createStore({
           context.commit('setToken', obj.token);
         }
         return obj;
-      })
+      });
     },
-    getFeed(context, url) {
-      context.commit('setArticles', [{
-        title: 'Article 1',
-        description: 'Content of article 1'
-      },
-      {
-        title: 'Article 2',
-        description: 'Content of article 2'
-      },
-      {
-        title: 'Article 3',
-        description: 'Content of article 3'
-      }
-      ])
+    getFeed(context, feed) {
+      return getJson({
+        url: `/feeds/${feed._id}`
+      }).then(data => {
+        if (data.err) {
+          return data;
+        }
+        context.commit('setArticles', data.items);
+        return data;
+      });
     },
-    addFeed(context, feedName, feedUrl) {
-      context.commit('addFeed', feedName, feedUrl)
+    getFeeds(context) {
+      return getJson({
+        url: '/feeds'
+      }).then(data => {
+        if (data.feeds) {
+          context.commit('setFeeds', data.feeds);
+        }
+        return data;
+      });
+    },
+    addFeed(context, data) {
+      return postJson({
+        url: '/feeds',
+        data
+      }).then(data => {
+        if (data.feeds) {
+          context.commit('setFeeds', data.feeds);
+          return data;
+        }
+      });
+
     },
     removeFeed(context, feed) {
-      context.commit('removeFeed', feed)
+      return deleteJson({
+        url: `/feeds/${feed._id}`
+      }).then(data => {
+        if (data.feeds) {
+          context.commit('setFeeds', data.feeds);
+          return data;
+        }
+      });
     }
   },
   modules: {
   }
-})
+});
