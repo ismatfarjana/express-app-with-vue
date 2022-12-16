@@ -3,6 +3,14 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import store from '@/store/index'
 
+function authGuard(to, from, next) {
+  if (!store.getters.token) {
+    next({ name: 'Login' })
+  } else {
+    next()
+  }
+}
+
 const routes = [
   {
     path: '/',
@@ -26,13 +34,16 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Feeds.vue'),
-    beforeEnter(to, from, next) {
-      if (!store.getters.token) {
-        next({ name: 'Login' })
-      } else {
-        next()
-      }
-    }
+    beforeEnter: authGuard
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Settings.vue'),
+    beforeEnter: authGuard
   }
 ]
 

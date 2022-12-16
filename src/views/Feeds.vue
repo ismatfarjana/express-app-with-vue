@@ -1,5 +1,76 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="col-3">
+    <div class="panel">
+      <h4>Feeds</h4>
+      <div class="list-group">
+        <a 
+          v-for="feed in $store.getters.feeds" 
+          :key="feed"
+          href="#" 
+          class="list-group-item list-group-item-action"
+          @click.prevent="feedOnClick(feed.url)"
+        >
+          {{feed.name}}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="panel">
+      <h4>Articles</h4>
+      <div class="list-group">
+        <a 
+          v-for="article in $store.getters.articles" 
+          :key="article" 
+          href="#" 
+          class="list-group-item list-group-item-action"
+          @click.prevent="articleOnClick(article)"
+        >
+          {{ article.title}}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="panel">
+      <h4>{{articleTitle}}</h4>
+      <div v-html="articleDescription"></div>
+    </div>
   </div>
 </template>
+
+<script>
+import { ref } from "vue"
+import { useStore } from "vuex";
+
+export default {
+  setup() { 
+    let store = useStore();
+    let articleTitle = ref('');
+    let articleDescription = ref('');
+
+    function feedOnClick(url) {
+      store.dispatch('getFeed', url);
+    };
+
+    function articleOnClick(article) {
+      articleTitle.value = article.title;
+      articleDescription.value = article.description;
+    }
+
+    return {
+      feedOnClick,
+      articleOnClick,
+      articleTitle,
+      articleDescription
+    };
+  }
+}
+</script >
+
+<style>
+.panel {
+  height: calc(100vh -56px);
+  overflow: auto;
+}
+</style>
