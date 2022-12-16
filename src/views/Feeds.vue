@@ -58,6 +58,8 @@ export default {
       articleDescription.value = article.description;
     }
 
+    store.dispatch('getFeeds');
+
     return {
       feedOnClick,
       articleOnClick,
