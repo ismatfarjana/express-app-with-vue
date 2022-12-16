@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { postJson } from '@/utils/http';
+import { postJson, getJson } from '@/utils/http';
 
 export default createStore({
   state: {
@@ -31,16 +31,19 @@ export default createStore({
       localStorage.setItem('auth-token', value);
     },
     setArticles(state, value) {
-      state.articles = value
+      state.articles = value;
+    },
+    setFeeds(state, feeds) {
+      state.feeds = feeds;
     },
     addFeed(state, feedName, feedUrl) {
       state.feeds.push({
         name: feedName,
         url: feedUrl
-      })
+      });
     },
     removeFeed(state, feed) {
-      state.feeds.splice(state.feeds.indexOf(feed), 1)
+      state.feeds.splice(state.feeds.indexOf(feed), 1);
     }
   },
   actions: {
@@ -53,7 +56,7 @@ export default createStore({
           context.commit('setToken', obj.token);
         }
         return obj;
-      })
+      });
     },
     login(context, data) {
       return postJson({
@@ -64,7 +67,7 @@ export default createStore({
           context.commit('setToken', obj.token);
         }
         return obj;
-      })
+      });
     },
     getFeed(context, url) {
       context.commit('setArticles', [{
@@ -79,15 +82,25 @@ export default createStore({
         title: 'Article 3',
         description: 'Content of article 3'
       }
-      ])
+      ]);
+    },
+    getFeeds(context) {
+      return getJson({
+        url: '/feeds'
+      }).then(data => {
+        if (data.feeds) {
+          context.commit('setFeeds', data.feeds);
+        }
+        return data;
+      });
     },
     addFeed(context, feedName, feedUrl) {
-      context.commit('addFeed', feedName, feedUrl)
+      context.commit('addFeed', feedName, feedUrl);
     },
     removeFeed(context, feed) {
-      context.commit('removeFeed', feed)
+      context.commit('removeFeed', feed);
     }
   },
   modules: {
   }
-})
+});
