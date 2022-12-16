@@ -20,8 +20,14 @@ export default createStore({
   },
   mutations: {
     setToken(state, value) {
-      state.token = value;
-      localStorage.setItem('auth-token', value);
+      if (value) {
+        state.token = value;
+        localStorage.setItem('auth-token', value);
+      } else {
+        state.token = null;
+        localStorage.removeItem('auth-token');
+      }
+
     },
     setArticles(state, value) {
       state.articles = value;

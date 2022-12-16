@@ -27,7 +27,10 @@
             <router-link to="/feeds" class="nav-link">Feeds</router-link>
           </li>
           <li class="nav-link">
-            <router-link to="/settings" class="nav-link">settings</router-link>
+            <router-link to="/settings" class="nav-link">Settings</router-link>
+          </li>
+          <li class="nav-link">
+            <a href="#" class="nav-link" @click.prevent="logout()">Logout</a>
           </li>
         </ul>
       </div>
@@ -43,3 +46,14 @@
   </div>
   
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.commit('setToken');
+      this.$router.push('/login');
+    }
+  }
+}
+</script>
