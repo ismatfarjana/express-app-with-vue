@@ -66,8 +66,7 @@ export default {
     function removeFeed(feed) {
       store.dispatch('removeFeed', feed);
     };
-
-
+    
     return {
       addFeed,
       removeFeed,
