@@ -53,20 +53,16 @@ export default createStore({
         return obj;
       });
     },
-    getFeed(context, url) {
-      context.commit('setArticles', [{
-        title: 'Article 1',
-        description: 'Content of article 1'
-      },
-      {
-        title: 'Article 2',
-        description: 'Content of article 2'
-      },
-      {
-        title: 'Article 3',
-        description: 'Content of article 3'
-      }
-      ]);
+    getFeed(context, feed) {
+      return getJson({
+        url: `/feeds/${feed._id}`
+      }).then(data => {
+        if (data.err) {
+          return data;
+        }
+        context.commit('setArticles', data.items);
+        return data;
+      });
     },
     getFeeds(context) {
       return getJson({
