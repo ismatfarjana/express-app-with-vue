@@ -21,6 +21,15 @@
             <router-link to="/register" class="nav-link">Register</router-link>
           </li>
         </ul>
+
+        <ul class="navbar-nav ml-auto" v-else>
+          <li class="nav-link">
+            <router-link to="/feeds" class="nav-link">Feeds</router-link>
+          </li>
+          <li class="nav-link">
+            <router-link to="/settings" class="nav-link">settings</router-link>
+          </li>
+        </ul>
       </div>
     </nav>
     

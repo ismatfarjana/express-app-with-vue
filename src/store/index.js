@@ -32,6 +32,15 @@ export default createStore({
     },
     setArticles(state, value) {
       state.articles = value
+    },
+    addFeed(state, feedName, feedUrl) {
+      state.feeds.push({
+        name: feedName,
+        url: feedUrl
+      })
+    },
+    removeFeed(state, feed) {
+      state.feeds.splice(state.feeds.indexOf(feed), 1)
     }
   },
   actions: {
@@ -72,6 +81,12 @@ export default createStore({
       }
       ])
     },
+    addFeed(context, feedName, feedUrl) {
+      context.commit('addFeed', feedName, feedUrl)
+    },
+    removeFeed(context, feed) {
+      context.commit('removeFeed', feed)
+    }
   },
   modules: {
   }
